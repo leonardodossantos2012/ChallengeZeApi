@@ -43,5 +43,5 @@ jobs:
       run: |
             git_hash=$(git rev-parse --short "$GITHUB_SHA")
             echo $git_hash
-            bucket=reports-challenge-ze
+            bucket=reports-api-ze-challenge
             aws s3 cp $OUTPUT_PATH s3://"$bucket"/"$git_hash"/ --recursive --region sa-east-1
