@@ -117,12 +117,20 @@
                 },
                 "humidity": {
                     "type": "integer"
+                },
+                "sea_level": {
+                    "type": "integer"
+                },
+                "grnd_level": {
+                    "type": "integer"
                 }
             },
             "required": [
                 "feels_like",
+                "grnd_level",
                 "humidity",
                 "pressure",
+                "sea_level",
                 "temp",
                 "temp_max",
                 "temp_min"
@@ -192,10 +200,14 @@
                 },
                 "deg": {
                     "type": "integer"
+                },
+                "gust": {
+                    "type": "number"
                 }
             },
             "required": [
                 "deg",
+                "gust",
                 "speed"
             ],
             "title": "Wind"
