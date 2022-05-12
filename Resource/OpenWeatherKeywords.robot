@@ -12,20 +12,20 @@ ${APY_KEY}
 ###Condicao
 que eu tenha inforfmado a cidade
     [Arguments]  ${cidade}  ${status_code}
-    Create Session   data        ${DEV}
+    Create Session   data        ${DEV}  verify=true
     &{PARAMS}       Create Dictionary         q=${cidade}       APPID=${API_KEY}
     ${RESPOSTA}  Get on Session   data        weather   params=&{PARAMS}  expected_status=${status_code}
     SET GLOBAL VARIABLE  ${RESPOSTA}
 
 que eu não tenha passado a cidade
-    Create Session   data        ${DEV}
+    Create Session   data        ${DEV}  verify=true
     &{PARAMS}       Create Dictionary        APPID=${API_KEY}
     ${RESPOSTA}  Get on Session   data        weather   params=&{PARAMS}  expected_status=400
     SET GLOBAL VARIABLE  ${RESPOSTA}
 
 que eu tenha inforfmado a appid
     [Arguments]  ${api_key_invalid}
-    Create Session   data        ${DEV}
+    Create Session   data        ${DEV}  verify=true
     &{PARAMS}       Create Dictionary        APPID=${api_key_invalid}
     ${RESPOSTA}  Get on Session   data        weather   params=&{PARAMS}  expected_status=401
     SET GLOBAL VARIABLE  ${RESPOSTA}

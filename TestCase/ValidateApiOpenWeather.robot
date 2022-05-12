@@ -12,7 +12,6 @@ Cenario 01 - Validar busca por cidade
     Given que eu tenha inforfmado a cidade  Caieiras  200
     When verifico se a região retornada é da cidade  Caieiras
     Then é retornado uma descrição do clima
-    And valido se o json schema esta correto  200
 
 Cenario 02 - Validar retorno do status 404
     Given que eu tenha inforfmado a cidade  Não existe  404
