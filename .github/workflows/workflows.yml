@@ -1,0 +1,47 @@
+name: Test With Robot Framework for API
+
+on: [push]
+
+jobs:
+  run_automation:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install Dependecies
+      env:
+        PYTHON_VERSION: "3.10"
+      run: |
+        py_version=$PYTHON_VERSION
+        sudo apt update
+        sudo apt install software-properties-common
+        sudo add-apt-repository -y ppa:deadsnakes/ppa
+        sudo apt update
+        sudo apt install python"$py_version"
+
+    - name: Verify Version
+      run: |
+          python --version
+          aws --version
+
+    - name: Install libraries for robot
+      run: |
+          pip install -U pip
+          pip install -r requirements.txt
+
+    - name: Run Tests
+      env:
+        APY_KEY: ${{ secrets.APY_KEY }}
+      run: |
+            mkdir results
+            robot -v API_KEY:$APY_KEY -d ./reports ./TestCase
+
+    - name: Upload Tests in Bucket S3 AWS
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        OUTPUT_PATH: "/home/runner/work/ChallengeZeApi/ChallengeZeApi/reports"
+      run: |
+            git_hash=$(git rev-parse --short "$GITHUB_SHA")
+            echo $git_hash
+            bucket=reports-api-ze-challenge
+            aws s3 cp $OUTPUT_PATH s3://"$bucket"/"$git_hash"/ --recursive --region sa-east-1
